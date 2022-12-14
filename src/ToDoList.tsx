@@ -13,7 +13,7 @@ type ToDoListPropsType = {
     changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
     filter: string
 }
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean

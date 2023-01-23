@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
 import {FilterType} from "./App";
 import './App.css';
-import AddItemForm from "./components/AddItemForm";
+import AddItemForm from "./components/AddItemForm/AddItemForm";
 import EditableSpan from "./components/EditableSpan/EditableSpan";
 
 type ToDoListPropsType = {

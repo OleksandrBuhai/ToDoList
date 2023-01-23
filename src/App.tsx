@@ -2,21 +2,20 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, ToDoList,} from "./ToDoList";
 import {v1} from "uuid";
-import AddItemForm from "./components/AddItemForm";
+import AddItemForm from "./components/AddItemForm/AddItemForm";
 
 export type FilterType = 'all' | 'active' | 'completed'
 
 type TasksStateType = {
     [key:string] : Array<TaskType>
 }
+export  type TodoListType = {
+    id: string,
+    title: string,
+    filter: FilterType
+}
 
 function App() {
-
-    type TodoListType = {
-        id: string,
-        title: string,
-        filter: string
-    }
 
     let todolistID1 = v1()
     let todolistID2 = v1()
@@ -67,7 +66,7 @@ function App() {
           setTasks(deletedTask);*/
     }
 
-    function addTask(task: string, todoListId: string) {
+    function addTask(task: string, todoListId: string)  {
         let newTask = {id: v1(), title: task, isDone: false}
         let todolistTask = tasks[todoListId]
 

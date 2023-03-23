@@ -1,5 +1,5 @@
-import {FilterType, TodoListType} from "../App";
-import {v1} from "uuid";
+import { FilterType, TodoListType } from "../App";
+import { v1 } from "uuid";
 
 const RemoveTodolistAT = "REMOVE-TODOLIST" as const
 const AddTodoListAT = 'ADD-TODOLIST' as const
@@ -32,18 +32,18 @@ export const todolistsReducer = (state: Array<TodoListType>, action: ActionType)
         case "REMOVE-TODOLIST":
             return state.filter(t => t.id != action.id)
         case "ADD-TODOLIST":
-            const newToDoList: TodoListType = {id: v1(), title: action.title, filter: 'all'}
+            const newToDoList: TodoListType = { id: v1(), title: action.title, filter: 'all' }
             return ([...state, newToDoList])
         case "CHANGE-TODOLIST-TITLE":
-            return state.map(t => t.id === action.id ? {...t, title: action.title} : t)
+            return state.map(t => t.id === action.id ? { ...t, title: action.title } : t)
         case "CHANGE-TODOLIST-FILTER":
-            return state.map(el => el.id === action.id ? {...el, filter: action.filter} : el)
+            return state.map(el => el.id === action.id ? { ...el, filter: action.filter } : el)
         default:
             return state
     }
 }
 
-export const RemoveTodolistAC = (id:string):RemoveTodoListAT => ({type:RemoveTodolistAT, id})
-export const AddTodolistAC = (title:string):AddTodoListAT => ({type:AddTodoListAT, title})
-export const ChangeTodolistAC = (id:string, title:string) => ({type:ChangeTodoListTitleAT, id, title})
-export const ChangeTodolistFilterAC = (id:string, filter:FilterType)=>({type:ChangeTodoListFilterAT,id,filter})
+export const RemoveTodolistAC = (id: string): RemoveTodoListAT => ({ type: RemoveTodolistAT, id })
+export const AddTodolistAC = (title: string): AddTodoListAT => ({ type: AddTodoListAT, title })
+export const ChangeTodolistAC = (id: string, title: string) => ({ type: ChangeTodoListTitleAT, id, title })
+export const ChangeTodolistFilterAC = (id: string, filter: FilterType) => ({ type: ChangeTodoListFilterAT, id, filter })

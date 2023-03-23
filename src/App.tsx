@@ -6,7 +6,7 @@ import AddItemForm from "./components/AddItemForm/AddItemForm";
 
 export type FilterType = 'all' | 'active' | 'completed'
 
-type TasksStateType = {
+export type TasksStateType = {
     [key:string] : Array<TaskType>
 }
 export  type TodoListType = {
@@ -69,7 +69,7 @@ function App() {
     function addTask(task: string, todoListId: string)  {
         let newTask = {id: v1(), title: task, isDone: false}
         let todolistTask = tasks[todoListId]
-
+little chan
         tasks[todoListId] = [newTask, ...todolistTask]
         setTasks({...tasks})
 

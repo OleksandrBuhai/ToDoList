@@ -1,9 +1,12 @@
-import React, {useReducer, useState} from 'react';
+import { useReducer, useState } from 'react';
+import { v1 } from "uuid";
 import './App.css';
-import {TaskType, ToDoList,} from "./ToDoList";
-import {v1} from "uuid";
+import { TaskType, ToDoList, } from "./ToDoList";
 import AddItemForm from "./components/AddItemForm/AddItemForm";
+import { tasksReducer } from './todolist-reducer/tasks-reducer';
 import { todolistsReducer } from './todolist-reducer/todolists-reducer';
+
+
 
 export type FilterType = 'all' | 'active' | 'completed'
 
@@ -16,18 +19,19 @@ export  type TodoListType = {
     filter: FilterType
 }
 
-function App() {
+function AppWithReducer() {
 
     let todolistID1 = v1()
     let todolistID2 = v1()
 
-    let [todolists, setTodolists] = useState<Array<TodoListType>>([
+      let [todolists, setTodolists] = useReducer(todolistsReducer, [
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
 
 
-    let [tasks, setTasks] = useState<TasksStateType>({
+
+    let [tasks, dispatchToTasks] = useReducer(tasksReducer,{
         [todolistID1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -39,6 +43,7 @@ function App() {
             {id: v1(), title: 'GraphQL', isDone: false},
         ]
     })
+
 
     
     function addTodoList(title: string) {
@@ -64,8 +69,6 @@ function App() {
 
         tasks[todoListId] = todolistTasks.filter(tasks => id != tasks.id)
         setTasks({...tasks})
-        /*  let deletedTask = tasks.filter(tasks => id !== tasks.id)
-          setTasks(deletedTask);*/
     }
 
     function addTask(task: string, todoListId: string)  {
@@ -133,4 +136,4 @@ function App() {
     )
 }
 
-export default App;
+export default AppWithReducer;

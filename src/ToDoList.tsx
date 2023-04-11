@@ -15,8 +15,15 @@ type ToDoListPropsType = {
     changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
     changeTaskTitle: (taskId: string, newValue: string, todoListId: string) => void
     changeTodoListTitle: (id:string, newTitle:string) => void
-    filter: string
+    filter: FilterType
 }
+
+export type TodoListType = {
+    id:string
+    title:string
+    filter:string
+}
+
 export type TaskType = {
     id: string
     title: string

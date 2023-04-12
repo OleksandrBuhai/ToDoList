@@ -46,9 +46,9 @@ function AppWithReducer() {
 
 
     function addTodoList(title: string) {
-        dispatchToTasks(AddToDoListAC(title))
-        dispatchToTodolists(AddTodolistAC(title))
-        
+        let action = title
+        dispatchToTasks(AddToDoListAC(action))
+        dispatchToTodolists(AddTodolistAC(action))
     }
 
     function deleteTodoList(id: string) {
@@ -82,13 +82,13 @@ function AppWithReducer() {
         dispatchToTasks(removeTaskAC(id,todoListId))
     }
 
-    function addTask(task: string, todoListId: string)  {
+    function addTask(title: string, todoListId: string)  {
       /*   let newTask = {id: v1(), title: task, isDone: false}
         let todolistTask = tasks[todoListId]
 
         tasks[todoListId] = [newTask, ...todolistTask]
         setTasks({...tasks}) */
-        dispatchToTasks(addTaskAC(task,todoListId))
+        dispatchToTasks(addTaskAC(title,todoListId))
     }
 
     function changeTaskStatus(taskId: string, isDone: boolean, todoListId: string) {

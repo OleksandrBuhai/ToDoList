@@ -51,7 +51,7 @@ function App() {
         })
     }
 
-    function filtredTask(value: FilterType, todoListId: string) {
+    function filtredTask(todoListId: string,value: FilterType ) {
         let todoList = todolists.find(el => el.id === todoListId)
         if (todoList) {
             todoList.filter = value

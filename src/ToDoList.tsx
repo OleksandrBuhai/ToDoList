@@ -10,7 +10,7 @@ type ToDoListPropsType = {
     tasks: Array<TaskType>
     deleteTodoList: (id: string) => void
     removeTask: (id: string, todoListId: string) => void
-    filtredTask: (value: FilterType, todoListId: string) => void
+    filtredTask: (todoListId: string,value: FilterType) => void
     addTask: (title: string, todoListId: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
     changeTaskTitle: (taskId: string, newValue: string, todoListId: string) => void
@@ -35,21 +35,19 @@ export const ToDoList = (props: ToDoListPropsType) => {
     const [title, setTitle] = useState('')
     const [error, serError] = useState(false)
 
-    
-
 
     const addTask = (title:string) => {
         props.addTask(title, props.id)
     }
 
     const onAllClickHandler = () => {
-        props.filtredTask('all', props.id)
+        props.filtredTask(props.id,'all')
     }
     const onActiveClickHandler = () => {
-        props.filtredTask('active', props.id)
+        props.filtredTask(props.id, 'active')
     }
     const onCompletedClickHandler = () => {
-        props.filtredTask('completed', props.id)
+        props.filtredTask(props.id,'completed')
     }
     const removeTodolist = () => {
         props.deleteTodoList(props.id)
@@ -72,7 +70,8 @@ export const ToDoList = (props: ToDoListPropsType) => {
                 <AddItemForm  addItem={addTask}/>
                 <div>
                     <ul>
-                        {props.tasks.map((task, index) => {
+                        {
+                        props.tasks.map((task, index) => {
                             const onClickRemoveTaskHandler = () => {
                                 props.removeTask(task.id, props.id)
                             }

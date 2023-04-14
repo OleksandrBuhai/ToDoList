@@ -34,9 +34,10 @@ type ChangeTaskTitleAC = {
 }
 type AddToDoListAC = {
     type: typeof AddTodoListAT
+    payload:{
     title: string
     todolistId: string
-}
+}}
 type RemoveTodoListAC = {
     type: typeof RemoveTodolistAT
     todolistId: string
@@ -44,7 +45,21 @@ type RemoveTodoListAC = {
 
 export type ActionType = RemoveTasktAT | addTaskAC | changeTaskStatusAC | ChangeTaskTitleAC | AddToDoListAC | RemoveTodoListAC
 
-const initialState: TasksStateType = {}
+let todolistID1 = v1()
+let todolistID2 = v1()
+
+const initialState: TasksStateType = {
+    [todolistID1]: [
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'ReactJS', isDone: false},
+
+    ],
+    [todolistID2]: [
+        {id: v1(), title: 'Rest API', isDone: true},
+        {id: v1(), title: 'GraphQL', isDone: false},
+    ]
+}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
@@ -76,7 +91,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'ADD-TODOLIST':
             return {
                 ...state,
-                [action.todolistId]: []
+                [action.payload.todolistId]: []
             };
         case 'REMOVE=TODOLIST':
             const { [action.todolistId]: _, ...newState } = state
@@ -93,8 +108,8 @@ export const changeTaskStatusAC = (taskId: string, taskStatus: boolean, todolist
 }
 export const ChangeTaskTitleAC = (taskId: string, taskTitle: string, todolistId: string): ChangeTaskTitleAC => ({ type: ChangeTaskTitleAT, taskId, taskTitle, todolistId })
 export const AddToDoListAC = (title: string): AddToDoListAC => {
-    const todolistId = v1()
-    return { type: AddTodoListAT, title, todolistId }
+     
+    return { type: AddTodoListAT, payload: { title, todolistId: v1() } };
 }
 export const RemoveTodoListAC = (todolistId: string): RemoveTodoListAC => ({
     type: RemoveTodolistAT, todolistId

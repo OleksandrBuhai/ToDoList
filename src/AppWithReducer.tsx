@@ -4,7 +4,7 @@ import './App.css';
 import { TaskType, ToDoList, } from "./ToDoList";
 import AddItemForm from "./components/AddItemForm/AddItemForm";
 import { AddToDoListAC, ChangeTaskTitleAC, RemoveTodoListAC, addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer } from './todolist-reducer/tasks-reducer';
-import { AddTodolistAC, ChangeTodolistAC, ChangeTodolistFilterAC, RemoveTodolistAC, todolistsReducer } from './todolist-reducer/todolists-reducer';
+import { AddTodoListAC, ChangeTodolistAC, ChangeTodolistFilterAC, RemoveTodolistAC, todolistsReducer } from './todolist-reducer/todolists-reducer';
 
 
 
@@ -48,7 +48,7 @@ function AppWithReducer() {
     function addTodoList(title: string) {
         let action = title
         dispatchToTasks(AddToDoListAC(action))
-        dispatchToTodolists(AddTodolistAC(action))
+        
     }
 
     function deleteTodoList(id: string) {

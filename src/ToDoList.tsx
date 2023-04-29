@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 import { FilterType } from "./App";
 import './App.css';
 import AddItemForm from "./components/AddItemForm/AddItemForm";
@@ -32,9 +32,9 @@ export type TaskType = {
 
 export const ToDoList = (props: ToDoListPropsType) => {
 
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
-    }
+    },[])
 
     const onAllClickHandler = () => {
         props.filtredTask(props.id, 'all')

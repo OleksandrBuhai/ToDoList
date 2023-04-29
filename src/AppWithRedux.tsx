@@ -6,6 +6,7 @@ import AddItemForm from "./components/AddItemForm/AddItemForm";
 import { AppRootStateType } from './redux-store/store';
 import { AddToDoListAC, ChangeTaskTitleAC, addTaskAC, changeTaskStatusAC, removeTaskAC } from './todolist-reducer/tasks-reducer';
 import { ChangeTodolistAC, ChangeTodolistFilterAC, RemoveTodolistAC } from './todolist-reducer/todolists-reducer';
+import { useCallback } from 'react';
 
 
 
@@ -28,11 +29,10 @@ function AppWithRedux() {
     const dispatch = useDispatch()
     
 
-    function addTodoList(title: string) {
+    const addTodoList = useCallback((title: string)=> {
         let action = title
-        let id = v1()
         dispatch(AddToDoListAC(action))
-    }
+    },[dispatch])
 
     function deleteTodoList(id: string) {
         dispatch(RemoveTodolistAC(id))
@@ -56,6 +56,10 @@ function AppWithRedux() {
         dispatch(ChangeTodolistFilterAC(todoListId,value))
     }
 
+
+
+
+    
     function removeTask(id: string, todoListId: string) {
   /*       let todolistTasks = tasks[todoListId]
 

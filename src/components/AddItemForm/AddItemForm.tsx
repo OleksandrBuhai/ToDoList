@@ -8,7 +8,7 @@ type AddItemFormPropsType = {
 const AddItemForm = memo((props: AddItemFormPropsType) => {
     const [title, setTitle] = useState('')
     const [error, serError] = useState(false)
-    console.log("render")
+
 
 
     const addTask = () => {

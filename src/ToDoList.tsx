@@ -1,8 +1,10 @@
-import React, { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react'
 import { FilterType } from "./App";
 import './App.css';
 import AddItemForm from "./components/AddItemForm/AddItemForm";
 import EditableSpan from "./components/EditableSpan/EditableSpan";
+import { Tasks } from './components/Tasks/Tasks';
+import { TasksWithRedux } from './components/Tasks/TasksWithRedux';
 
 type ToDoListPropsType = {
     id: string
@@ -30,11 +32,11 @@ export type TaskType = {
     isDone: boolean
 }
 
-export const ToDoList = (props: ToDoListPropsType) => {
+export const ToDoList = memo((props: ToDoListPropsType) => {
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
-    },[])
+    }, [])
 
     const onAllClickHandler = () => {
         props.filtredTask(props.id, 'all')
@@ -49,9 +51,35 @@ export const ToDoList = (props: ToDoListPropsType) => {
         props.deleteTodoList(props.id)
     }
 
-    const onChangeTitleHandler = (title: string) => {
+    const onChangeTitleHandler = useCallback((title: string) => {
         props.changeTodoListTitle(props.id, title)
-    }
+    }, [props.changeTodoListTitle, props.id])
+
+    /* 
+        const removeTask = useCallback((taskId: string) => {
+            props.removeTask(taskId, props.id)
+        }, [props.removeTask, props.id])
+        const changeTaskStatus = useCallback((taskId: string, newtaskStatus: boolean) => {
+            props.changeTaskStatus(taskId, newtaskStatus, props.id)
+        }, [props.changeTaskStatus, props.id])
+        const changeTaskTitle = useCallback((taskId: string, newValue: string) => {
+            props.changeTaskTitle(taskId, newValue, props.id)
+        }, [props.changeTaskTitle, props.id]) */
+
+
+
+    let tasks = props.tasks
+
+    useMemo(() => {
+        if (props.filter === 'active') {
+            tasks = tasks.filter(task => task.isDone === false)
+        }
+        if (props.filter === 'completed') {
+            tasks = tasks.filter(task => task.isDone === true)
+        }
+        return tasks
+    }, [props.filter, props.tasks])
+
 
 
     return (
@@ -67,25 +95,9 @@ export const ToDoList = (props: ToDoListPropsType) => {
                 <AddItemForm addItem={addTask} />
                 <div>
                     <ul>
-                        {
-                            props.tasks?.map((task) => {
-                                const onClickRemoveTaskHandler = () => {
-                                    props.removeTask(task.id, props.id)
-                                }
-                                const onChangeTaskStates = (e: ChangeEvent<HTMLInputElement>) => {
-                                    props.changeTaskStatus(task.id, e.currentTarget.checked, props.id)
-                                }
-                                const onChange = (newValue: string) => {
-                                    props.changeTaskTitle(task.id, newValue, props.id)
-                                }
-                                return (
-                                    <li key={task.id} className={task.isDone ? 'is-done' : ""}>
-                                        <EditableSpan title={task.title} onChange={onChange} />
-                                        <input type={"checkbox"} checked={task.isDone} onChange={onChangeTaskStates} />
-                                        <button onClick={onClickRemoveTaskHandler}>X</button>
-                                    </li>
-                                )
-                            })}
+                        {tasks?.map(t => {
+                            return <TasksWithRedux key={t.id} task={t} todolistId={props.id} />
+                        })}
                     </ul>
                 </div>
                 <div>
@@ -100,4 +112,4 @@ export const ToDoList = (props: ToDoListPropsType) => {
                 </div>
             </div>
         </div>)
-}
+})

@@ -27,6 +27,7 @@ export const TodolistsList: React.FC = () => {
     const isLoggedIn = useAppSelector((state)=> state.auth.isLoggedIn )
 
     useEffect(() => {
+
         const thunk = fetchTodolistsTC()
         dispatch(thunk)
     }, [])
@@ -71,8 +72,7 @@ export const TodolistsList: React.FC = () => {
         dispatch(thunk)
     }, [])
 
-
-    if (!isLoggedIn) return <Navigate to={'/login'}/>
+    if(!isLoggedIn) return <Navigate to={'/login'}/>
 
     return <>
         <Grid container style={{padding: '20px'}}>

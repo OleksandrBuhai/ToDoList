@@ -18,7 +18,7 @@ import {RequestStatusType} from "./app-reducer";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
-import {initializeAppTC} from "../features/Login/authReducer";
+import {initializeAppTC, logoutTC} from "../features/Login/authReducer";
 
 
 function App() {
@@ -28,10 +28,15 @@ function App() {
     const isInitialized = useAppSelector((state)=> state.auth.isInitialized )
 
     useEffect(()=>{
-        dispatch(initializeAppTC)
+        dispatch(initializeAppTC())
     },[])
 
-    if (isInitialized) {
+    const logOut = () => {
+        dispatch(logoutTC())
+    }
+
+
+    if (!isInitialized) {
         console.log('huy')
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
@@ -52,6 +57,7 @@ function App() {
                         News
                     </Typography>
                     <Button color="inherit">Login</Button>
+                    <Button color="inherit" onClick={logOut}>LogOut</Button>
                 </Toolbar>
             </AppBar>
             {status ==='loading' && <LinearProgress/>}

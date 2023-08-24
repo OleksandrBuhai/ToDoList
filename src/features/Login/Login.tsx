@@ -43,15 +43,19 @@ export const Login = () => {
             return errors
 
         },
-        onSubmit: async (values) => {
-            const promise = await dispatch(loginTC(values))
-            console.log(promise)
+        onSubmit:values => {
+
+          dispatch(loginTC(values))
             formik.resetForm()
+
         },
     })
 
 
-    if (isLoggedIn) return  <Navigate to={'/'}/>
+    if (isLoggedIn) {
+        console.log(isLoggedIn + '2')
+        return <Navigate to={'/'}/>
+    }
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
@@ -81,9 +85,9 @@ export const Login = () => {
                         />
                         {formik.errors.password ? <div>{formik.errors.password}</div>: null }
                         <FormControlLabel label={'Remember me'} control={<Checkbox
-                            onChange={formik.handleChange}
+
                             checked={formik.values.rememberMe}
-                            name='remeemberMe'
+                            {...formik.getFieldProps('rememberMe')}
                         />}/>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login

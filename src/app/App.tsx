@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
-import { TodolistsList } from '../features/TodolistsList/TodolistsList'
+import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 
 // You can learn about the difference by reading this guide on minimizing bundle size.
 // https://mui.com/guides/minimizing-bundle-size/
@@ -11,16 +11,34 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import {LinearProgress} from "@mui/material";
-import { Menu } from '@mui/icons-material';
-import {useAppSelector} from "./store";
+import {CircularProgress, LinearProgress} from "@mui/material";
+import {Menu} from '@mui/icons-material';
+import {useAppDispatch, useAppSelector} from "./store";
 import {RequestStatusType} from "./app-reducer";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
+import {Route, Routes} from "react-router-dom";
+import {Login} from "../features/Login/Login";
+import {initializeAppTC} from "../features/Login/authReducer";
 
 
 function App() {
 
     const status = useAppSelector<RequestStatusType>((state)=>state.app.status)
+    const dispatch = useAppDispatch()
+    const isInitialized = useAppSelector((state)=> state.auth.isInitialized )
+
+    useEffect(()=>{
+        dispatch(initializeAppTC)
+    },[])
+
+    if (isInitialized) {
+        console.log('huy')
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
+
 
     return (
         <div className="App">
@@ -37,8 +55,17 @@ function App() {
                 </Toolbar>
             </AppBar>
             {status ==='loading' && <LinearProgress/>}
+            <Container>
+                <Routes>
+                    <Route path='/' element={<TodolistsList />}/>
+                    <Route path='/login' element={<Login/>}/>
+
+                    <Route path='*' element={<h1>404: PAGE NOT FOUND</h1>} />
+
+                </Routes>
+            </Container>
             <Container fixed>
-                <TodolistsList/>
+
             </Container>
         </div>
     )
